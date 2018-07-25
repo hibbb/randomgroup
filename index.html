@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- 
+    Name: Random Grounping
+    URI: http://liubenben.com/code/randomgroup/
+    Author: Stephen Liu
+    Author URI: http://liubenben.com/
+    Description: 一个自动随机分组的Web程序
+    Version: 1.0
+    License: 
+    License URI: 
+    Text Domain: 
+    Tags:  
+-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>自动随机分组 - By liubenben.com</title>
+
+<style>
+ul {
+    padding:0;
+    margin:0;
+    list-style-type: none;
+}
+li {
+    padding:0;
+    margin:0;
+    list-style-position: inside;    
+}
+html, body, .container {
+    padding:0;
+    margin:0;
+    width: 100%;
+    height:100%;
+    font-size:16px;
+}
+span {
+    font-size: 12px;
+    color:#999;
+}
+.clearfix:after {
+    content:""; 
+    display: block; 
+    clear:both; 
+}
+#left {
+    float: left;
+    width:330px;
+    height: 100%;
+    background-color: #eee;
+}
+#ins {
+    padding:50px;
+    background-color: #eee;
+}
+#right {
+    float:left;
+    width:660px;
+}
+#out {
+    padding:30px 50px;
+}
+
+textarea, select, button {
+    width:200px;
+    margin-top: 10px;
+    margin-bottom: 30px;
+    font-size:14px;
+    line-height: 150%;
+}
+textarea {
+    height:300px;
+    width:178px;
+    padding:7px 10px;
+}
+select {
+    height:30px;
+}
+button {
+    margin-bottom: 30px;
+    height:32px;
+    line-height: 28px;
+    font-size: 16px;
+}
+
+
+#instraction {
+    padding:30px 50px;
+    font-size: 12px;
+    line-height: 180%;
+    color:#BBB;
+}
+#instraction h5 {
+    font-size: 14px;
+}
+
+h3 {
+    margin:0;
+    padding:20px 0 10px 10px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#out > ul > li > ul > li {
+    float: left;
+    padding:7px 10px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+    min-width:68px;
+    text-align: center;
+    background-color: #f5f5f5;
+}
+
+@media only screen and (max-width: 1000px) {
+    #left {
+        width:330px;
+    }
+    #right {
+        width:410px;
+    }
+}
+@media only screen and (max-width: 760px) {
+    #left {
+        width:200px;
+    }
+    #ins {
+        padding:20px;
+        background-color: #eee;
+    }
+    #right {
+        width:400px;    
+    }
+    textarea, select, button {
+        width:120px;
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+    textarea {
+        height:260px;
+        width:98px;
+        padding: 7px 10px;
+    }
+}
+
+@media only screen and (max-width: 600px) {
+    #left {
+        width:100%;
+        height: auto;
+        text-align: center;
+    }
+    #right {
+        width:100%; 
+    }
+    textarea, select, button {
+        width:70%;
+        margin-top: 10px;
+        margin-bottom: 30px;
+    }
+    textarea {
+        height:200px;
+    }
+    #out {
+        padding:30px;
+    }
+    #instraction {
+        padding:30px;
+    }
+    #out > ul > li > ul > li {
+        padding:5px 8px;
+        margin-right: 8px;
+        margin-bottom: 8px;
+        min-width:50px;
+        text-align: center;
+        background-color: #f5f5f5;
+        font-size: 14px;
+    }
+    h3 {
+        font-size: 16px;
+        font-weight: bold;
+    }
+}
+
+</style>
+
+</head>
+
+<body>
+
+
+<div class="container">
+    <div id="left" class="clearfix">
+        <div id="ins">
+            输入人员姓名
+            <br>
+            <span>[ 每个姓名一行 ]</span>
+            <br>
+            <!-- 正则匹配，只能输入中英文、数字、空格、换行、回车  ；  同时限制textarea输入字符数量 -->
+            <textarea name="in" id="in" maxlength="300" onkeyup="this.value=this.value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5 \n\r]/g,'');this.value=this.value.substring(0, 300);" onpaste="this.value=this.value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5 \n\r]/g,'')" oncontextmenu="this.value=this.value.replace(/[^\a-\z\A-\Z0-9\u4E00-\u9FA5 \n\r]/g,'')" onchange="this.value=this.value.substring(0, 300)" onkeydown="this.value=this.value.substring(0, 300)"></textarea>
+            <br>
+            选择组员数量
+            <br>
+            <select id="number">
+                <option id="number-2" value="2">2</option>
+                <option id="number-3" value="3">3</option>
+                <option id="number-4" value="4">4</option>
+                <option id="number-5" value="5">5</option>
+                <option id="number-6" value="6">6</option>
+                <option id="number-7" value="7">7</option>
+                <option id="number-8" value="8">8</option>
+                </select>
+            <br>
+            
+            <button onclick="getin()">确定</button>
+        </div>
+    </div>
+
+    <div id="right" class="clearfix">
+        <div id="out">
+        </div>
+        <div id="instraction">
+            <h5>说明</h5>
+            <p>1. 本页面是一个自动分组程序，针对人员姓名和组员数量进行随机分组，主要采用JavsScript语言实现。</p>
+            <p>2. 在左侧输入文本框输入待分组人员姓名，每个姓名占一行；在组员数量选择菜单选择相应的组员数量；点击“确定”按钮得到随机分组结果。</p>
+            <p>3. 上一次输入的人员姓名和所选的组员数量会自动记忆（部分浏览器不支持该功能）。</p>
+            <p>4. 本页面由 <a href="http://liubenben.com" target="_blank">liubenben.com</a> 开发并提供支持。</p>
+        </div>
+    </div>
+
+</div>
+
+
+<script type="text/javascript">
+
+    function getin() {
+        var names = document.getElementById("in").value;
+        var number = parseInt(document.getElementById("number").value); //每组人员数量
+        
+        var arr = names.split("\n");
+        arr = arr.filter(item=>item); //清除数组中的空元素
+
+        if (getbrowser()) {
+            // 以下两行代码在EDGE和IE下本地访问不支持
+            window.sessionStorage.setItem("liubenben-code-randomgroup-list", arr.join("\n")); //上次输入的人员名字，存入本地，下次打开时使用
+            window.sessionStorage.setItem("liubenben-code-randomgroup-number", number); //上次选择的每组数量，存入本地，下次打开时使用
+        }
+
+        //洗牌代码
+        Array.prototype.shuffle = function() {
+        var input = this;
+        for (var i = input.length-1; i >=0; i--) {
+        var randomIndex = Math.floor(Math.random()*(i+1)); 
+        var itemAtIndex = input[randomIndex]; 
+        input[randomIndex] = input[i]; 
+        input[i] = itemAtIndex;
+        }
+        return input;
+        }
+        
+        arr.shuffle(); //利用洗牌代码对数组进行随机排序
+
+
+        var index = 0;
+        var result = [];
+
+        while(index < arr.length) {
+            result.push(arr.slice(index, index += number));
+        }
+
+        var html = "<ul>";
+
+        for(i=0; i<result.length; i++) {
+            html = html + "<li><h3>第 " + (i+1) + " 组</h3><ul class='clearfix'>"
+            for(j=0; j<result[i].length; j++) {
+                html = html + "<li>" + result[i][j] + "</li>";
+            }  
+            html = html + "</ul></li>"
+        }
+
+        html = html + "</ul>";
+
+        document.getElementById("out").innerHTML = html;
+
+    }
+
+    // 判断浏览器
+    function getbrowser() {
+        var Sys = {};
+        var ua = navigator.userAgent.toLowerCase();
+        var s;
+        (s = ua.match(/edge\/([\d.]+)/)) ? Sys.edge = s[1] :
+        (s = ua.match(/rv:([\d.]+)\) like gecko/)) ? Sys.ie = s[1] :
+        (s = ua.match(/msie ([\d.]+)/)) ? Sys.ie = s[1] :
+        (s = ua.match(/firefox\/([\d.]+)/)) ? Sys.firefox = s[1] :
+        (s = ua.match(/chrome\/([\d.]+)/)) ? Sys.chrome = s[1] :
+        (s = ua.match(/opera.([\d.]+)/)) ? Sys.opera = s[1] :
+        (s = ua.match(/version\/([\d.]+).*safari/)) ? Sys.safari = s[1] : 0;
+
+        return Sys.chrome||Sys.firefox;
+    }
+
+    // 读取上次输入并自动保存的人员名单和组织数量，该函数里的内容在EDGE和IE下本地访问不支持
+    window.onload = function(){
+        if (getbrowser()) {
+            var namelist = window.sessionStorage.getItem("liubenben-code-randomgroup-list");
+            document.getElementById("in").value = namelist ? namelist : []; //如果是第一次打开，返回空内容
+
+            var selectoption = window.sessionStorage.getItem("liubenben-code-randomgroup-number");
+            selectoption = selectoption ? selectoption : 2; //如果是第一次打开，设置组员数量为2
+            document.getElementById("number-" + selectoption).setAttribute("selected", "selected");
+        }
+    }
+
+ 
+
+</script>
+
+
+
+
+</body>
+</html>

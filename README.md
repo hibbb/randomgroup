@@ -3,7 +3,6 @@ RandomGroup（随机分组）
 
 Informations
 ------------------------
-URI: http://liubenben.com/code/randomgroup/ <br>
 Author: Liu Benben <br>
 Author URI: http://liubenben.com/ <br>
 Version: 1.0 <br>
